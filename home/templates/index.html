@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="container-400">
+      <form class="form_input_user_parameters" method="POST" action="#" id="details_form">
+        <p><strong>Заполните эту форму</strong></p>
+
+        <div class="form-group">
+          {% csrf_token %}
+          <div class="form-group">
+            <label id="name_label" for="id_name">Имя</label>
+            {{ form.name }}
+            <label id="gender_label" for="id_gender">Пол</label>
+            {{ form.gender }}
+            <label id="age_label" for="id_age">Возраст</label>
+            {{ form.age }}
+            <label id="weight_label" for="id_weight">Вес</label>
+            {{ form.weight }}
+            <label id="height_label" for="id_height">Рост</label>
+            {{ form.height }}
+            <label id="activity_label" for="id_activity">Уровень активности</label>
+            {{ form.activity }}
+            <label id="number_of_days_label" for="id_number_of_days">Количество дней</label>
+            {{ form.number_of_days }}
+            
+          </div>
+          <button type="submit" class="btn">Отправить</button>
+          <button type="reset" class="btn">Сброс</button>
+        </div>
+      </form>
+    </div>
+    <div class="container-600">
+      <div class="card">
+        <div class="card-header">
+          {% if message == '0' %}
+            <strong>ИИ диетолог</strong>
+          {% endif %} {% if message == '1' %}
+            <p>Ваше имя: {% if name %}{{ name }}{% else %}{{ request.user.username }}{% endif %}</p>
+          {% endif %}
+        </div>
+        {% if message == '0' %}
+          <div class="card-body">
+            <p>ИИ диетолог - ваш верный помощник для быстрого похудения!</p>
+            <p>Подберем оптимальный план питания и калорий на день на основе ваших показателей.</p>
+            <hr />
+          </div>
+        {% endif %}
+        <div class="card-body">
+          {% if message == '0' %}
+            <p class="text-center">Отправьте форму для просмотра результата</p>
+          {% endif %} {% if message == '1' %}
+            <p>Пол: {{ gender }}</p>
+            <p>Рост: {{ height }} см.</p>
+            <p>Вес: {{ weight }} кг.</p>
+            <p>Возраст: {{ age }} лет
+              {{ data_5 }}</p>
+            <hr />
+              <p>Необходимые калории на день: {{ cal }} ккал.</p>
+            {% if diets %}
+              <p>Количество дней: {{ diets | length }}</p>
+              {% for diet in diets %}
+                <p><strong>День:</strong> {{forloop.counter}}</p>
+                <p>1: {{ diet.breakfast }}</p>
+                <p>2: {{ diet.lunch }}</p>
+                <p>3: {{ diet.afternoon_snack }}</p>
+                <p>4: {{ diet.dinner }}</p>
+                <p>5: {{ diet.evening_snack }}</p>
+                <hr />
+              {% endfor %}
+            {% endif %} 
+            {% else %}
+            
+          {% endif %}
+          {% if request.user.is_authenticated %}
+
+            {% else %}
+              <p style="justify-content: center;">Для сохранения результата&nbsp;<span><a href="{% url 'register' %}">Зарегистрируйтесь!</a></span>
+              </p>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+

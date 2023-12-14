@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container-400">
+    <form class="form_auth_register" method="post">
+      <h2>Регистрация</h2>
+      {% if form.errors %}
+        <p class="text-white error-container">Ошибка регистрации.</p>
+      {% endif %}
+      <div class="form-group">
+        {% csrf_token %}
+        {{ form.username }}
+         {% for error in form.username.errors %}
+        <div class="error-container">
+            <p class="text-white">{{ error }}</p>
+        </div>
+          {% endfor %}
+        {{ form.name }}
+         {% for error in form.name.errors %}
+        <div class="error-container">
+            <p class="text-white">{{ error }}</p>
+        </div>
+          {% endfor %}
+        {{ form.email }}
+         {% for error in form.email.errors %}
+        <div class="error-container">
+            <p class="text-white">{{ error }} <br>Правильный формат: user@email.com
+            </p>
+        </div>
+          {% endfor %}
+        {{ form.password }}
+         {% for error in form.password.errors %}
+        <div class="error-container">
+            <p class="text-white">{{ error }}</p>
+        </div>
+          {% endfor %}
+        {{ form.password_confirm }}
+         {% for error in form.password_confirm.errors %}
+         {% if error %}
+        <div class="error-container">
+            <p class="text-white">{{ error }}</p>
+        </div>
+          {% endif %}
+          {% endfor %}
+        <input type="submit" value="Зарегистрироваться" class="btn" />
+      </div>
+      <p>Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
+      </p>
+    </form>
+  </div>
+{% endblock %}

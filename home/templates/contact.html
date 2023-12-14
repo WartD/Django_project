@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="conteiner-400">
+    <h1>Свяжитесь с диетологом</h1>
+    <form class="form_auth_register" action="" method="POST">
+        <p><strong>Заполните эту форму для связи с Вами</strong></p>
+      <div class="form-group">
+        {% csrf_token %}
+        <label for="email">Почта</label>
+        <input id="email" type="email" name="email" placeholder="Ваша почта" required />
+        <input type="submit" class="btn" value="Отправить">
+      </div>
+    </form>
+  </div>
+{% endblock %}

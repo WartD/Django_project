@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="container-400">
+    <form class="form_auth_register" method="post">
+      <h2 class="text-center">Авторизация</h2>
+      {% if form.non_field_errors %}
+        <div class="error-container">
+          {% for error in form.non_field_errors %}
+            <p class="text-white">{{ error }}</p>
+          {% endfor %}
+      </div>
+      {% endif %}
+
+      {% csrf_token %}
+      <div class="form-group">
+        <input type="text" name="username" placeholder="Имя пользователя" required />
+          {% for error in form.username.errors %}
+        <div class="error-container">
+            <p class="text-white">{{ error }}</p>
+        </div>
+          {% endfor %}
+        <input type="password" name="password" placeholder="Пароль" required/>
+         {% for error in form.password.errors %}
+        <div class="error-container">
+            <p class="text-white">{{ error }}</p>
+        </div>
+          {% endfor %}
+        <input type="submit" value="Войти" class="btn" />
+      </div>
+      <p class="text-center"> Нет аккаута? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
+    </form>
+  </div>
+{% endblock %}
+
+ 

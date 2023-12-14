@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ИИ диетолог</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+      <a class="navbar-brand mb-0 h1" href="{% url 'home' %}">ИИ диетолог</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li>
+            <a class="nav-item active text-white ml-0 mr-3" href="{% url 'main' %}">Главная</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          {% if not request.user.is_authenticated %}
+            <li>
+              <a class="nav-item active text-white" href="{% url 'login' %}">Аккаунт</a>
+            </li>
+          {% else %}
+            <li>
+              <a class="nav-item active text-white" style="margin-left: 50px" href="{% url 'me' %}">Добро пожаловать, {{ user.username }}</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <div class="card text-white bg-info border-primary m-5 ml-5 float-left" style="width: 25rem;">
+      <div class="card-header text-center h5">Заполните эту форму</div>
+      <div class="card-body">
+        <form method="POST" action="#" id="details_form">
+          <div class="form-group">
+            {{ form.as_p }} {% csrf_token %}
+            <button type="reset" class="btn btn-danger">Сброс</button>
+            <button type="submit" class="btn btn-success float-right">Отправить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card text-white bg-light border-primary m-5 ml-5 float-left" style="width: 50rem;">
+      <div class="card-header text-info text-center h5">
+        {% if message == '0' %} Заполните форму для просмотра данных {% endif %} {% if message == '1' %}
+          Ваше имя:
+          {{ name }}
+        {% endif %}
+      </div>
+      <div class="card-body text-info">
+        {% if message == '0' %}
+          <p class="text-center">Отправьте форму для просмотра результата</p>
+        {% endif %} {% if message == '1' %}
+          Пол: {{ gender }}<br />Рост: {{ height }} см.<br />Вес: {{ weight }} кг. <br /> Возраст: {{ age }} лет<hr />Необходимые калории на день: {{ cal }} ккал.<br /><br /> 1: {{ data_1 }}<br /><br /> 2: {{ data_2 }}<br /><br /> 3: {{ data_3 }}<br /><br /> 4: {{ data_4 }}<br /><br /> 5:
+          {{ data_5 }}<br /><br />
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>

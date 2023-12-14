@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Title</title>
+    <!-- CSS only -->
+    <!-- JavaScript Bundle with Popper -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <div class="main">
+      <div class="nav-container">
+        <nav>
+          <a class="brand-text" href="{% url 'index' %}">ИИ диетолог</a>
+
+          <ul>
+            <li>
+              <a href="{% url 'index' %}">Главная</a>
+            </li>
+            <li>
+              <a href="{% url 'contact'%}">Связаться с диетологом</a>
+            </li>
+            {% if not request.user.is_authenticated %}
+              <li>
+                <a href="{% url 'login' %}">Аккаунт</a>
+              </li>
+            {% else %}
+              <li>
+                <a href="{% url 'me' %}">Добро пожаловать, {{ user.username }}</a>
+              </li>
+
+              <li>
+                <a href="{% url 'logout' %}?next={{ request.path }}">Выйти</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+
+      <div class="container-full">
+        {% block content %}
+
+        {% endblock %}
+      </div>
+    </div>
+
+    {% block script %}
+
+    {% endblock %}
+  </body>
+</html>

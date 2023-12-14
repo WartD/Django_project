@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container-756">
+    <h1>Добро пожаловать, <strong>{{ request.user.username }}</strong>!</h1>
+
+    <form class="user_image_form" method="POST" action="#" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+      <label for="{{ form_photo.user_photo.id_for_label }}">
+        <img src="{% if user_photo %}{{ user_photo.url }}{% endif %}"
+     class="user_photo" 
+     id="image-placeholder"
+/>
+
+      </label>
+        <div style="display: none;">
+          {{ form_photo.user_photo }}
+        </div>
+        <input type="submit" value="Загрузить" class="btn" />
+      </div>
+    </form>
+    <hr>
+
+    <div class="container-400">
+      <form class="form_input_user_parameters" method="POST" action="#" id="details_form">
+        <div class="form-group">
+          {% csrf_token %}
+          <div class="form-group">
+            <label id="name_label" for="id_name">Имя</label>
+            {{ form.name }}
+            <label id="gender_label" for="id_gender">Пол</label>
+            {{ form.gender }}
+            <label id="age_label" for="id_age">Возраст</label>
+            {{ form.age }}
+            <label id="weight_label" for="id_weight">Вес</label>
+            {{ form.weight }}
+            <label id="height_label" for="id_height">Рост</label>
+            {{ form.height }}
+            <label id="activity_label" for="id_activity">Уровень активности</label>
+            {{ form.activity }}
+            <label id="number_of_days_label" for="id_number_of_days">Количество дней</label>
+            {{ form.number_of_days }}
+          </div>
+          <button type="submit" class="btn">Отправить</button>
+          <button type="reset" class="btn">Сброс</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+ 
+<style>
+#{{ form_photo.user_photo.id_for_label }} {
+    display: none;
+}
+</style>
+
+{% endblock %}
+
+
+{% block script %}
+<script>
+  document.getElementById("{{ form_photo.user_photo.id_for_label }}").addEventListener('change', updatePlaceholder);
+
+    function updatePlaceholder() {
+      var input = document.getElementById("{{ form_photo.user_photo.id_for_label }}");
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                // Обновляем источник изображения-заглушки новым изображением
+                document.getElementById('image-placeholder').src = e.target.result;
+            };
+
+            // Чтение файла как Data URL
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+{% endblock %}
